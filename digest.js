@@ -1,7 +1,7 @@
 const TOPICS = {
   kindness: { label: 'Kindness', color: '#ff7b6b' }, animals: { label: 'Animals', color: '#ffc53d' },
   planet: { label: 'Planet', color: '#3f9c6c' }, health: { label: 'Health', color: '#6fb7e0' },
-  science: { label: 'Science', color: '#b7a4f2' },
+  science: { label: 'Science', color: '#b7a4f2' }, culture: { label: 'Culture', color: '#f58fb4' },
 };
 const $ = id => document.getElementById(id);
 const el = (tag, props = {}, ...kids) => { const n = Object.assign(document.createElement(tag), props); n.append(...kids); return n; };

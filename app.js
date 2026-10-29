@@ -4,6 +4,7 @@ const TOPICS = {
   planet: { label: 'Planet', color: '#3f9c6c' },
   health: { label: 'Health', color: '#6fb7e0' },
   science: { label: 'Science', color: '#b7a4f2' },
+  culture: { label: 'Culture', color: '#f58fb4' },
 };
 const PAGE = 12;
 
@@ -159,6 +160,7 @@ function openStory(s) {
   history.replaceState(null, '', `#story=${encodeURIComponent(s.id)}`);
   if (!reader.open) reader.showModal();
   reader.scrollTop = 0;
+  $('r-title').focus({ preventScroll: true }); // start reading at the headline, not on the close button
 }
 const step = d => {
   const list = visible(), i = list.findIndex(x => x.id === current.id);
@@ -276,7 +278,7 @@ const MOODS = [
   { label: 'Worn out by the news', topics: ['kindness', 'health'] },
   { label: 'In need of a smile', topics: ['animals'] },
   { label: 'Worried about the planet', topics: ['planet'] },
-  { label: 'Curious', topics: ['science'] },
+  { label: 'Curious', topics: ['science', 'culture'] },
 ];
 function buildMoods() {
   const box = $('moods'), out = $('mood-out');

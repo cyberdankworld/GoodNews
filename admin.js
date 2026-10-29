@@ -1,5 +1,5 @@
 const $ = id => document.getElementById(id);
-const TOPICS = ['kindness', 'animals', 'planet', 'health', 'science'];
+const TOPICS = ['kindness', 'animals', 'planet', 'health', 'science', 'culture'];
 let token = '';
 try { token = sessionStorage.getItem('gne-admin') || ''; } catch {}
 

@@ -2,9 +2,15 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#d6ebf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1d38" media="(prefers-color-scheme: dark)">
 <title>Good News Everywhere</title>
 <meta name="description" content="Wholesome, hopeful news from around the world, pinned to a map.">
+<meta property="og:title" content="Good News Everywhere">
+<meta property="og:description" content="Wholesome, hopeful news from around the world, pinned to a map.">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='10' fill='%23FFC53D'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -21,6 +27,7 @@
   </nav>
 </header>
 
+<a class="skip" href="#feed-title">Skip to stories</a>
 <main id="top">
   <section class="hero">
     <div class="hero-copy">
@@ -69,7 +76,7 @@
       <label>Topic
         <select name="category">
           <option value="kindness">Kindness</option><option value="animals">Animals</option>
-          <option value="planet">Planet</option><option value="health">Health</option><option value="science">Science</option>
+          <option value="planet">Planet</option><option value="health">Health</option><option value="science">Science</option><option value="culture">Culture</option>
         </select>
       </label>
       <label class="hp" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off"></label>
@@ -91,7 +98,7 @@
     <button class="close" id="close" type="button" aria-label="Close story">×</button>
     <div class="reader-img" id="r-img"></div>
     <p class="reader-meta" id="r-meta"></p>
-    <h3 id="r-title"></h3>
+    <h3 id="r-title" tabindex="-1"></h3>
     <p id="r-summary"></p>
     <div class="reader-actions">
       <a class="btn" id="r-link" target="_blank" rel="noopener">Read the full story</a>
