@@ -1,5 +1,6 @@
 // Pulls good-news RSS feeds into data/stories.json. Run: node scripts/fetch-news.mjs  (Node 18+)
 import { writeFile, mkdir } from 'node:fs/promises';
+import { join } from 'node:path';
 import { createHash } from 'node:crypto';
 import { locate } from './places.mjs';
 
@@ -90,6 +91,7 @@ const stories = all
   .filter(s => !/^Good News in History/i.test(s.title) || (seen.has('history') ? false : seen.add('history')))
   .slice(0, 200);
 
-await mkdir('data', { recursive: true });
-await writeFile('data/stories.json', JSON.stringify({ updated: new Date().toISOString(), stories }, null, 2));
+const OUT = process.env.DATA_DIR || 'data'; // same variable the server reads
+await mkdir(OUT, { recursive: true });
+await writeFile(join(OUT, 'stories.json'), JSON.stringify({ updated: new Date().toISOString(), stories }, null, 2));
 console.log(`Wrote ${stories.length} stories (${stories.filter(s => s.lat !== null).length} placed on the map).`);

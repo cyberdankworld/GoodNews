@@ -1,16 +1,24 @@
 // Zero-dependency server: serves the site, takes story submissions, and lets an admin approve them.
 // Run: ADMIN_TOKEN=your-secret node server.mjs   (PORT defaults to 8080)
 import { createServer } from 'node:http';
-import { readFile, writeFile, mkdir } from 'node:fs/promises';
+import { readFile, writeFile, mkdir, access } from 'node:fs/promises';
 import { randomBytes, timingSafeEqual } from 'node:crypto';
-import { extname, join, normalize } from 'node:path';
+import { extname, join, normalize, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { locate } from './scripts/places.mjs';
 
 const ROOT = fileURLToPath(new URL('.', import.meta.url));
 const PORT = Number(process.env.PORT) || 8080;
 const TOKEN = process.env.ADMIN_TOKEN || randomBytes(9).toString('hex');
-const SUBMISSIONS = join(ROOT, 'data', 'submissions.json');
+// DATA_DIR is where submissions and refreshed stories live. Point it at a persistent volume when hosting.
+const DATA = process.env.DATA_DIR ? resolve(process.env.DATA_DIR) : join(ROOT, 'data');
+const SUBMISSIONS = join(DATA, 'submissions.json');
+const BUNDLED_STORIES = join(ROOT, 'data', 'stories.json');
+const storiesFile = async () => {
+  try { await access(join(DATA, 'stories.json')); return join(DATA, 'stories.json'); } catch { return BUNDLED_STORIES; }
+};
+// Behind a reverse proxy (Coolify, Traefik) every request arrives from the proxy, so read the real address from it.
+const clientIp = req => (process.env.TRUST_PROXY ? String(req.headers['x-forwarded-for'] || '').split(',')[0].trim() : '') || req.socket.remoteAddress;
 const CATEGORIES = ['kindness', 'animals', 'planet', 'health', 'science', 'culture'];
 
 const TYPES = {
@@ -24,7 +32,7 @@ const readSubmissions = async () => {
   try { return JSON.parse(await readFile(SUBMISSIONS, 'utf8')); } catch { return []; }
 };
 const saveSubmissions = async list => {
-  await mkdir(join(ROOT, 'data'), { recursive: true });
+  await mkdir(DATA, { recursive: true });
   await writeFile(SUBMISSIONS, JSON.stringify(list, null, 2));
 };
 const json = (res, code, body) => {
@@ -53,12 +61,12 @@ const limited = ip => {
 
 async function api(req, res, url) {
   if (url.pathname === '/api/stories' && req.method === 'GET') {
-    const base = JSON.parse(await readFile(join(ROOT, 'data', 'stories.json'), 'utf8'));
+    const base = JSON.parse(await readFile(await storiesFile(), 'utf8'));
     const approved = (await readSubmissions()).filter(s => s.status === 'approved');
     return json(res, 200, { ...base, stories: [...approved.map(({ status, ...s }) => s), ...base.stories] });
   }
   if (url.pathname === '/api/submit' && req.method === 'POST') {
-    if (limited(req.socket.remoteAddress)) return json(res, 429, { error: 'Too many stories from this device. Try again in an hour.' });
+    if (limited(clientIp(req))) return json(res, 429, { error: 'Too many stories from this device. Try again in an hour.' });
     const d = await body(req);
     const title = clean(d.title, 120), summary = clean(d.summary, 400), placeText = clean(d.place, 60);
     if (d.website) return json(res, 200, { ok: true }); // honeypot field: bots fill it in, people never see it
@@ -95,7 +103,12 @@ async function api(req, res, url) {
 createServer(async (req, res) => {
   try {
     const url = new URL(req.url, 'http://x');
+    if (url.pathname === '/healthz') { res.writeHead(200, { 'content-type': 'text/plain' }); return res.end('ok'); }
     if (url.pathname.startsWith('/api/')) return await api(req, res, url);
+    if (url.pathname === '/data/stories.json') {
+      res.writeHead(200, { 'content-type': TYPES['.json'], 'cache-control': 'no-cache' });
+      return res.end(await readFile(await storiesFile()));
+    }
     const path = normalize(decodeURIComponent(url.pathname));
     if (!PUBLIC.test(path)) { res.writeHead(404); return res.end('Not found'); }
     const file = path === '/' ? 'index.html' : path.slice(1);
@@ -108,5 +121,5 @@ createServer(async (req, res) => {
   }
 }).listen(PORT, () => {
   console.log(`Good News Everywhere on http://localhost:${PORT}`);
-  console.log(`Admin page: http://localhost:${PORT}/admin.html   token: ${TOKEN}`);
+  console.log(process.env.ADMIN_TOKEN ? 'Admin page: /admin.html (token from ADMIN_TOKEN)' : `ADMIN_TOKEN not set. Temporary token for this run: ${TOKEN}`);
 });
