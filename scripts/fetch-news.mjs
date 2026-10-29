@@ -28,6 +28,8 @@ const decode = s => s
   .replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#039;|&#8217;/g, "'")
   .replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
 
+const shorten = (text, max = 320) => text.length <= max ? text : `${text.slice(0, max).replace(/\s+\S*$/, '')}…`;
+
 const tag = (xml, name) => {
   const m = xml.match(new RegExp(`<${name}[^>]*>([\\s\\S]*?)</${name}>`, 'i'));
   return m ? m[1] : '';
@@ -47,7 +49,8 @@ async function readFeed(feed) {
     const xml = await res.text();
     return xml.split(/<item[ >]/i).slice(1).map(item => {
       const title = decode(tag(item, 'title'));
-      const summary = decode(tag(item, 'description')).replace(/The post .* appeared first on .*$/i, '').trim();
+      const summary = shorten(decode(tag(item, 'description') || tag(item, 'content:encoded'))
+        .replace(/The post .* appeared first on .*$/i, '').replace(/^This article has been published in.*?(\.|$)/i, '').trim());
       const text = `${title}. ${summary}`;
       const { place, lat, lon } = locate(text);
       const category = (CATEGORIES.find(([, re]) => re.test(text)) || ['kindness'])[0];
@@ -58,7 +61,7 @@ async function readFeed(feed) {
         date: new Date(decode(tag(item, 'pubDate')) || Date.now()).toISOString(),
         category, place, lat, lon, image: imageOf(item),
       };
-    }).filter(s => s.title && s.url).slice(0, 40);
+    }).filter(s => s.title && s.url && s.summary.length >= 20).slice(0, 40);
   } catch (err) {
     console.warn(`Skipped ${feed.name}: ${err.message}`);
     return [];

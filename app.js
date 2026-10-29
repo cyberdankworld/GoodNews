@@ -130,7 +130,7 @@ function tile(s, i) {
   }
   b.append(el('div', { className: 'tile-body' },
     el('h3', { textContent: s.title }),
-    el('p', { textContent: s.summary }),
+    ...(s.summary ? [el('p', { textContent: s.summary })] : []),
     el('div', { className: 'tile-foot' },
       el('span', { className: 'topic', textContent: s.place ? `${t.label} · ${s.place}` : t.label }),
       el('span', { textContent: ago(s.date) }))));
@@ -148,6 +148,7 @@ function openStory(s) {
   $('r-meta').textContent = [t.label, s.place, s.source, ago(s.date)].filter(Boolean).join('  ·  ');
   $('r-title').textContent = s.title;
   $('r-summary').textContent = s.summary;
+  $('r-summary').hidden = !s.summary;
   const link = $('r-link');
   s.url ? (link.href = s.url, link.hidden = false) : (link.hidden = true);
   syncHeart();
@@ -203,18 +204,20 @@ $('surprise').onclick = () => {
 };
 
 /* Map */
-const W = 1000, H = 500;
+const W = 1000, H = 440;
 let pinNodes = [];
 
 async function drawMap() {
   const svg = d3.select('#map').attr('viewBox', `0 0 ${W} ${H}`);
-  const projection = d3.geoNaturalEarth1().fitExtent([[10, 10], [W - 10, H - 10]], { type: 'Sphere' });
-  const path = d3.geoPath(projection);
+  let land = null;
   try {
     const world = await (await fetch('https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/countries-110m.json')).json();
-    svg.append('g').selectAll('path').data(topojson.feature(world, world.objects.countries).features)
-      .join('path').attr('class', 'land').attr('d', path);
+    const all = topojson.feature(world, world.objects.countries);
+    land = { type: 'FeatureCollection', features: all.features.filter(f => f.id !== '010') }; // no Antarctica: it only wastes space
   } catch {}
+  const projection = d3.geoNaturalEarth1().fitExtent([[10, 10], [W - 10, H - 10]], land || { type: 'Sphere' });
+  const path = d3.geoPath(projection);
+  if (land) svg.append('g').selectAll('path').data(land.features).join('path').attr('class', 'land').attr('d', path);
 
   // The sun, at the point on Earth where it is directly overhead right now.
   const now = new Date();
@@ -222,14 +225,21 @@ async function drawMap() {
   const doy = (now - Date.UTC(now.getUTCFullYear(), 0, 0)) / 864e5;
   const sunLon = -(utcH - 12) * 15, sunLat = 23.44 * Math.sin(2 * Math.PI * (doy - 81) / 365);
   const [sx, sy] = projection([sunLon, sunLat]);
-  svg.append('circle').attr('class', 'sun-glow').attr('cx', sx).attr('cy', sy).attr('r', 70);
-  svg.append('circle').attr('class', 'sun-glow').attr('cx', sx).attr('cy', sy).attr('r', 42);
-  svg.append('circle').attr('class', 'sun-core').attr('cx', sx).attr('cy', sy).attr('r', 18);
-  $('sun-note').textContent = 'The sun is directly overhead at the yellow glow, right now.';
+  svg.append('circle').attr('class', 'sun-glow').attr('cx', sx).attr('cy', sy).attr('r', 52);
+  svg.append('circle').attr('class', 'sun-glow').attr('cx', sx).attr('cy', sy).attr('r', 34);
+  svg.append('circle').attr('class', 'sun-core').attr('cx', sx).attr('cy', sy).attr('r', 14);
+  const narrow = matchMedia('(max-width: 760px)').matches;
+  $('sun-note').textContent = narrow
+    ? 'Swipe the map sideways. The yellow glow is where the sun is overhead right now.'
+    : 'The sun is directly overhead at the yellow glow, right now.';
+  if (narrow) { // open on the sun so the first thing you see is lit
+    const sc = $('map-scroll');
+    sc.scrollLeft = (sx / W) * sc.scrollWidth - sc.clientWidth / 2;
+  }
 
   // Pins. Spread stories from the same country slightly so none hide behind another.
   const tip = el('div', { className: 'tip', role: 'presentation' });
-  $('map').parentElement.append(tip);
+  $('map-inner').append(tip);
   const counts = {};
   const g = svg.append('g');
   pinNodes = stories.filter(s => s.lat != null).map((s, i) => {
@@ -240,13 +250,14 @@ async function drawMap() {
     const node = g.append('g').attr('class', 'pin').attr('tabindex', 0).attr('role', 'button')
       .attr('aria-label', `${s.title}, ${s.place}`)
       .style('--c', topicOf(s).color).style('--d', `${(i % 8) * 0.4}s`).style('--i', i);
+    node.append('circle').attr('class', 'hit').attr('cx', x).attr('cy', y).attr('r', 16);
     node.append('circle').attr('class', 'halo').attr('cx', x).attr('cy', y).attr('r', 7);
     node.append('circle').attr('class', 'dot').attr('cx', x).attr('cy', y).attr('r', 6.5);
     const show = () => {
-      const box = $('map').getBoundingClientRect(), host = $('map').parentElement.getBoundingClientRect();
       tip.textContent = `${s.place}: ${s.title}`;
-      tip.style.left = `${(x / W) * box.width + box.left - host.left}px`;
-      tip.style.top = `${(y / H) * box.height + box.top - host.top}px`;
+      tip.style.left = `${(x / W) * 100}%`;
+      tip.style.top = `${(y / H) * 100}%`;
+      tip.classList.toggle('below', y / H < 0.3);
       tip.classList.add('on');
     };
     node.on('mouseenter focus', show).on('mouseleave blur', () => tip.classList.remove('on'))
