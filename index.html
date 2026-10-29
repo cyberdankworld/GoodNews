@@ -32,8 +32,17 @@
     </div>
   </section>
 
+  <section class="daily" id="daily" hidden aria-labelledby="daily-title">
+    <h2 id="daily-title">Today’s pick</h2>
+    <button class="daily-card" id="daily-card" type="button"></button>
+  </section>
+
   <section class="feed-head" aria-labelledby="feed-title">
     <h2 id="feed-title">Fresh stories</h2>
+    <div class="tools">
+      <input type="search" id="search" placeholder="Search stories or places" aria-label="Search stories or places">
+      <button class="chip" id="loved" type="button" aria-pressed="false">Loved <span id="loved-n">0</span></button>
+    </div>
     <div class="chips" id="chips" role="group" aria-label="Filter by topic"></div>
   </section>
   <section class="feed" id="feed" aria-live="polite"></section>
@@ -68,6 +77,11 @@
     <div class="reader-actions">
       <a class="btn" id="r-link" target="_blank" rel="noopener">Read the full story</a>
       <button class="heart" id="r-heart" type="button" aria-pressed="false">Love this</button>
+      <button class="heart plain" id="r-share" type="button">Share</button>
+    </div>
+    <div class="reader-nav">
+      <button type="button" id="r-prev">Previous</button>
+      <button type="button" id="r-next">Next</button>
     </div>
   </article>
 </dialog>

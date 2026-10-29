@@ -22,8 +22,13 @@ let stories = [];
 let hearts = new Set(store.get('gne-hearts', []));
 let topic = 'all';
 let shown = PAGE;
+let query = '';
+let lovedOnly = false;
 
-const visible = () => stories.filter(s => topic === 'all' || s.category === topic);
+const matches = s => (topic === 'all' || s.category === topic)
+  && (!lovedOnly || hearts.has(s.id))
+  && (!query || `${s.title} ${s.summary} ${s.place || ''}`.toLowerCase().includes(query));
+const visible = () => stories.filter(matches);
 const topicOf = s => TOPICS[s.category] || TOPICS.kindness;
 const ago = iso => {
   const days = Math.floor((Date.now() - new Date(iso)) / 864e5);
@@ -44,7 +49,36 @@ async function init() {
 
   buildChips();
   render();
+  renderDaily();
+  syncLoved();
   drawMap();
+  openFromHash();
+}
+
+/* Today's pick: the same story all day, chosen from stories that have a photo. */
+function renderDaily() {
+  const pool = stories.filter(s => s.image && s.source !== 'You');
+  if (!pool.length) return;
+  const day = Math.floor(Date.now() / 864e5);
+  const s = pool[day % pool.length], t = topicOf(s);
+  const img = el('img', { src: s.image, alt: '' });
+  img.onerror = () => img.remove();
+  const card = $('daily-card');
+  card.style.setProperty('--c', t.color);
+  card.replaceChildren(
+    el('div', { className: 'daily-img' }, img),
+    el('div', { className: 'daily-text' },
+      el('span', { className: 'topic', textContent: [t.label, s.place].filter(Boolean).join(' · ') }),
+      el('h3', { textContent: s.title }),
+      el('p', { textContent: s.summary })));
+  card.onclick = () => openStory(s);
+  $('daily').hidden = false;
+}
+
+function openFromHash() {
+  const id = new URLSearchParams(location.hash.slice(1)).get('story');
+  const s = id && stories.find(x => x.id === id);
+  if (s) openStory(s);
 }
 
 function buildChips() {
@@ -68,7 +102,9 @@ function render() {
   const list = visible();
   const feed = $('feed');
   if (!list.length) {
-    feed.replaceChildren(el('p', { className: 'empty', textContent: 'Nothing here yet. Pick another topic, or share a story of your own.' }));
+    feed.replaceChildren(el('p', { className: 'empty', textContent: lovedOnly && !hearts.size
+      ? 'You haven’t loved a story yet. Open one and tap “Love this” to keep it here.'
+      : 'No stories match. Try another topic or a different search.' }));
   } else {
     feed.replaceChildren(...list.slice(0, shown).map(tile));
   }
@@ -112,17 +148,53 @@ function openStory(s) {
   const link = $('r-link');
   s.url ? (link.href = s.url, link.hidden = false) : (link.hidden = true);
   syncHeart();
-  reader.showModal();
+  const list = visible(), i = list.findIndex(x => x.id === s.id);
+  $('r-prev').disabled = i < 1;
+  $('r-next').disabled = i < 0 || i >= list.length - 1;
+  $('r-share').textContent = 'Share';
+  history.replaceState(null, '', `#story=${encodeURIComponent(s.id)}`);
+  if (!reader.open) reader.showModal();
+  reader.scrollTop = 0;
 }
+const step = d => {
+  const list = visible(), i = list.findIndex(x => x.id === current.id);
+  if (list[i + d]) openStory(list[i + d]);
+};
+$('r-prev').onclick = () => step(-1);
+$('r-next').onclick = () => step(1);
+reader.addEventListener('keydown', e => {
+  if (e.key === 'ArrowLeft') step(-1);
+  if (e.key === 'ArrowRight') step(1);
+});
+reader.addEventListener('close', () => history.replaceState(null, '', location.pathname + location.search));
+$('r-share').onclick = async e => {
+  const url = current.url || location.href;
+  try {
+    if (navigator.share) await navigator.share({ title: current.title, url });
+    else { await navigator.clipboard.writeText(url); e.currentTarget.textContent = 'Link copied'; }
+  } catch {}
+};
 $('close').onclick = () => reader.close();
 reader.addEventListener('click', e => { if (e.target === reader) reader.close(); });
 function syncHeart() { $('r-heart').setAttribute('aria-pressed', hearts.has(current.id)); }
 $('r-heart').onclick = e => {
   hearts.has(current.id) ? hearts.delete(current.id) : hearts.add(current.id);
   store.set('gne-hearts', [...hearts]);
-  syncHeart();
+  syncHeart(); syncLoved();
+  if (lovedOnly) { render(); updatePins(); }
   e.currentTarget.classList.remove('pop'); void e.currentTarget.offsetWidth; e.currentTarget.classList.add('pop');
 };
+function syncLoved() { $('loved-n').textContent = stories.filter(s => hearts.has(s.id)).length; }
+$('loved').onclick = e => {
+  lovedOnly = !lovedOnly; shown = PAGE;
+  e.currentTarget.setAttribute('aria-pressed', lovedOnly);
+  render(); updatePins();
+};
+let timer;
+$('search').addEventListener('input', e => {
+  clearTimeout(timer);
+  timer = setTimeout(() => { query = e.target.value.trim().toLowerCase(); shown = PAGE; render(); updatePins(); }, 150);
+});
 $('surprise').onclick = () => {
   const list = visible(); if (list.length) openStory(list[Math.floor(Math.random() * list.length)]);
 };
@@ -182,7 +254,7 @@ async function drawMap() {
   updatePins();
 }
 function updatePins() {
-  pinNodes.forEach(({ s, node }) => node.classed('dim', topic !== 'all' && s.category !== topic));
+  pinNodes.forEach(({ s, node }) => node.classed('dim', !matches(s)));
 }
 
 /* Share form */

@@ -1,10 +1,14 @@
 // Pulls good-news RSS feeds into data/stories.json. Run: node scripts/fetch-news.mjs  (Node 18+)
 import { writeFile, mkdir } from 'node:fs/promises';
+import { createHash } from 'node:crypto';
 
 const FEEDS = [
   { name: 'Good News Network', url: 'https://www.goodnewsnetwork.org/feed/' },
   { name: 'Positive News', url: 'https://www.positive.news/feed/' },
   { name: 'Reasons to be Cheerful', url: 'https://reasonstobecheerful.world/feed/' },
+  { name: 'The Optimist Daily', url: 'https://www.optimistdaily.com/feed/' },
+  { name: 'The Better India', url: 'https://www.thebetterindia.com/feed/' },
+  { name: 'Upworthy', url: 'https://www.upworthy.com/feed' },
 ];
 
 // name -> [lat, lon]
@@ -68,12 +72,12 @@ async function readFeed(feed) {
       const category = (CATEGORIES.find(([, re]) => re.test(text)) || ['kindness'])[0];
       const link = decode(tag(item, 'link'));
       return {
-        id: Buffer.from(link).toString('base64url').slice(-12),
+        id: createHash('sha1').update(link).digest('hex').slice(0, 10),
         title, summary, url: link, source: feed.name,
         date: new Date(decode(tag(item, 'pubDate')) || Date.now()).toISOString(),
         category, place: place || null, lat, lon, image: imageOf(item),
       };
-    }).filter(s => s.title && s.url);
+    }).filter(s => s.title && s.url).slice(0, 40);
   } catch (err) {
     console.warn(`Skipped ${feed.name}: ${err.message}`);
     return [];
@@ -85,7 +89,7 @@ const seen = new Set();
 const stories = all
   .filter(s => !seen.has(s.url) && seen.add(s.url))
   .sort((a, b) => b.date.localeCompare(a.date))
-  .slice(0, 120);
+  .slice(0, 200);
 
 await mkdir('data', { recursive: true });
 await writeFile('data/stories.json', JSON.stringify({ updated: new Date().toISOString(), stories }, null, 2));
