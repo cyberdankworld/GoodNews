@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-29T09:37:37.763Z",
+  "updated": "2026-10-29T09:41:24.580Z",
   "stories": [
     {
       "id": "a7edd61b55",
@@ -9,9 +9,9 @@
       "source": "The Better India",
       "date": "2026-10-29T09:30:38.000Z",
       "category": "planet",
-      "place": null,
-      "lat": null,
-      "lon": null,
+      "place": "Delhi, India",
+      "lat": 28.61,
+      "lon": 77.21,
       "image": "https://img-cdn.publive.online/fit-in/1280x960/english-betterindia/media/media_files/2026/10/27/reuse-items-in-garden-2026-10-27-08-24-17.png"
     },
     {
@@ -22,9 +22,9 @@
       "source": "The Better India",
       "date": "2026-10-29T08:56:12.000Z",
       "category": "animals",
-      "place": "Germany",
-      "lat": 51,
-      "lon": 10,
+      "place": "New York, USA",
+      "lat": 40.71,
+      "lon": -74.01,
       "image": "https://img-cdn.publive.online/fit-in/1280x960/english-betterindia/media/media_files/2026/10/29/bihar-museum-2026-10-29-13-57-37.png"
     },
     {
@@ -35,9 +35,9 @@
       "source": "Reasons to be Cheerful",
       "date": "2026-10-29T08:00:15.000Z",
       "category": "kindness",
-      "place": null,
-      "lat": null,
-      "lon": null,
+      "place": "London, UK",
+      "lat": 51.5,
+      "lon": -0.12,
       "image": "https://reasonstobecheerful.world/wp-content/uploads/2026/10/IMG_0449-1024x768.jpg"
     },
     {
@@ -74,9 +74,9 @@
       "source": "The Better India",
       "date": "2026-10-29T05:30:38.000Z",
       "category": "kindness",
-      "place": null,
-      "lat": null,
-      "lon": null,
+      "place": "Bengaluru, India",
+      "lat": 12.97,
+      "lon": 77.59,
       "image": "https://img-cdn.publive.online/fit-in/1280x960/english-betterindia/media/media_files/2026/10/27/balcony-gardening-tips-2026-10-27-16-29-47.png"
     },
     {
@@ -87,9 +87,9 @@
       "source": "The Better India",
       "date": "2026-10-29T03:54:43.000Z",
       "category": "animals",
-      "place": "India",
-      "lat": 21,
-      "lon": 78,
+      "place": "Delhi, India",
+      "lat": 28.61,
+      "lon": 77.21,
       "image": "https://img-cdn.publive.online/fit-in/1280x960/english-betterindia/media/media_files/2026/10/28/kashmir-trip-2026-10-28-18-23-37.png"
     },
     {
@@ -100,9 +100,9 @@
       "source": "Upworthy",
       "date": "2026-10-29T02:25:05.000Z",
       "category": "kindness",
-      "place": null,
-      "lat": null,
-      "lon": null,
+      "place": "California, USA",
+      "lat": 37,
+      "lon": -120,
       "image": "https://www.upworthy.com/wp-content/uploads/sites/2/2026/10/IMG_1026.jpeg?w=782"
     },
     {
@@ -269,9 +269,9 @@
       "source": "Good News Network",
       "date": "2026-10-28T15:30:15.000Z",
       "category": "animals",
-      "place": "Australia",
-      "lat": -25,
-      "lon": 134,
+      "place": "Boston, USA",
+      "lat": 42.36,
+      "lon": -71.06,
       "image": null
     },
     {
@@ -282,9 +282,9 @@
       "source": "The Better India",
       "date": "2026-10-28T15:30:07.000Z",
       "category": "planet",
-      "place": "India",
-      "lat": 21,
-      "lon": 78,
+      "place": "Chennai, India",
+      "lat": 13.08,
+      "lon": 80.27,
       "image": "https://img-cdn.publive.online/fit-in/1280x960/english-betterindia/media/youtube_thumbnails/vi/GxUoVEVfIwc/maxresdefault.jpg"
     },
     {
@@ -295,9 +295,9 @@
       "source": "The Better India",
       "date": "2026-10-28T14:30:37.000Z",
       "category": "planet",
-      "place": "India",
-      "lat": 21,
-      "lon": 78,
+      "place": "Delhi, India",
+      "lat": 28.61,
+      "lon": 77.21,
       "image": "https://img-cdn.publive.online/fit-in/1280x960/english-betterindia/media/media_files/2026/10/28/1-2026-10-28-18-12-11.png"
     },
     {
@@ -334,9 +334,9 @@
       "source": "The Better India",
       "date": "2026-10-28T12:30:37.000Z",
       "category": "health",
-      "place": "India",
-      "lat": 21,
-      "lon": 78,
+      "place": "Kerala, India",
+      "lat": 10.85,
+      "lon": 76.27,
       "image": "https://img-cdn.publive.online/fit-in/1280x960/english-betterindia/media/media_files/2026/10/28/1-2026-10-28-17-38-37.png"
     },
     {
@@ -347,9 +347,9 @@
       "source": "Good News Network",
       "date": "2026-10-28T11:30:33.000Z",
       "category": "kindness",
-      "place": null,
-      "lat": null,
-      "lon": null,
+      "place": "Seoul, South Korea",
+      "lat": 37.57,
+      "lon": 126.98,
       "image": null
     },
     {
@@ -360,9 +360,9 @@
       "source": "The Better India",
       "date": "2026-10-28T10:33:41.000Z",
       "category": "animals",
-      "place": "India",
-      "lat": 21,
-      "lon": 78,
+      "place": "Kerala, India",
+      "lat": 10.85,
+      "lon": 76.27,
       "image": "https://img-cdn.publive.online/fit-in/1280x960/english-betterindia/media/media_files/2026/10/28/glowg-92-2026-10-28-14-17-34.png"
     },
     {
@@ -438,9 +438,9 @@
       "source": "The Better India",
       "date": "2026-10-28T05:30:37.000Z",
       "category": "kindness",
-      "place": null,
-      "lat": null,
-      "lon": null,
+      "place": "Bengaluru, India",
+      "lat": 12.97,
+      "lon": 77.59,
       "image": "https://img-cdn.publive.online/fit-in/1280x960/english-betterindia/media/media_files/2026/10/28/akshadha-foundation-2026-10-28-09-26-42.png"
     },
     {
@@ -503,9 +503,9 @@
       "source": "The Better India",
       "date": "2026-10-27T15:31:47.000Z",
       "category": "animals",
-      "place": null,
-      "lat": null,
-      "lon": null,
+      "place": "Bengaluru, India",
+      "lat": 12.97,
+      "lon": 77.59,
       "image": "https://img-cdn.publive.online/fit-in/1280x960/english-betterindia/media/youtube_thumbnails/vi/t0Q0raPegRg/maxresdefault.jpg"
     },
     {
@@ -542,9 +542,9 @@
       "source": "The Better India",
       "date": "2026-10-27T14:30:37.000Z",
       "category": "planet",
-      "place": "India",
-      "lat": 21,
-      "lon": 78,
+      "place": "Delhi, India",
+      "lat": 28.61,
+      "lon": 77.21,
       "image": "https://img-cdn.publive.online/fit-in/1280x960/english-betterindia/media/media_files/2026/10/27/1-2026-10-27-17-57-39.png"
     },
     {
@@ -555,9 +555,9 @@
       "source": "Good News Network",
       "date": "2026-10-27T13:00:06.000Z",
       "category": "animals",
-      "place": "Brazil",
-      "lat": -10,
-      "lon": -52,
+      "place": "Amazon, Brazil",
+      "lat": -3.5,
+      "lon": -62,
       "image": null
     },
     {
@@ -633,9 +633,9 @@
       "source": "The Better India",
       "date": "2026-10-27T07:54:47.000Z",
       "category": "planet",
-      "place": "India",
-      "lat": 21,
-      "lon": 78,
+      "place": "Delhi, India",
+      "lat": 28.61,
+      "lon": 77.21,
       "image": "https://img-cdn.publive.online/fit-in/1280x960/english-betterindia/media/media_files/2026/10/26/1-2026-10-26-20-32-58.png"
     },
     {
@@ -672,9 +672,9 @@
       "source": "The Better India",
       "date": "2026-10-27T05:30:37.000Z",
       "category": "kindness",
-      "place": "India",
-      "lat": 21,
-      "lon": 78,
+      "place": "Kerala, India",
+      "lat": 10.85,
+      "lon": 76.27,
       "image": "https://img-cdn.publive.online/fit-in/1280x960/english-betterindia/media/media_files/2026/10/26/kerala-farmers-sell-spices-worldwide-2026-10-26-19-30-32.png"
     },
     {
@@ -685,9 +685,9 @@
       "source": "The Better India",
       "date": "2026-10-27T02:30:37.000Z",
       "category": "planet",
-      "place": "Malaysia",
-      "lat": 4,
-      "lon": 102,
+      "place": "Mumbai, India",
+      "lat": 19.08,
+      "lon": 72.88,
       "image": "https://img-cdn.publive.online/fit-in/1280x960/english-betterindia/media/media_files/2026/10/26/edybites-2026-10-26-13-43-05.png"
     },
     {
@@ -724,9 +724,9 @@
       "source": "Good News Network",
       "date": "2026-10-26T18:30:24.000Z",
       "category": "kindness",
-      "place": null,
-      "lat": null,
-      "lon": null,
+      "place": "Shanghai, China",
+      "lat": 31.23,
+      "lon": 121.47,
       "image": null
     },
     {
@@ -750,9 +750,9 @@
       "source": "The Better India",
       "date": "2026-10-26T15:30:23.000Z",
       "category": "science",
-      "place": "United States",
-      "lat": 39,
-      "lon": -98,
+      "place": "Kolkata, India",
+      "lat": 22.57,
+      "lon": 88.36,
       "image": "https://img-cdn.publive.online/fit-in/1280x960/english-betterindia/media/youtube_thumbnails/vi/BCy3Ks_1HSk/maxresdefault.jpg"
     },
     {
@@ -763,9 +763,9 @@
       "source": "The Better India",
       "date": "2026-10-26T15:00:37.000Z",
       "category": "health",
-      "place": "India",
-      "lat": 21,
-      "lon": 78,
+      "place": "Delhi, India",
+      "lat": 28.61,
+      "lon": 77.21,
       "image": "https://img-cdn.publive.online/fit-in/1280x960/english-betterindia/media/media_files/2026/10/26/organic-farming-business-tips-2026-10-26-18-43-25.png"
     },
     {
@@ -841,9 +841,9 @@
       "source": "The Better India",
       "date": "2026-10-26T12:09:32.000Z",
       "category": "planet",
-      "place": "India",
-      "lat": 21,
-      "lon": 78,
+      "place": "Mumbai, India",
+      "lat": 19.08,
+      "lon": 72.88,
       "image": "https://img-cdn.publive.online/fit-in/1280x960/english-betterindia/media/media_files/2026/07/10/1-2026-07-10-14-43-53.png"
     },
     {
@@ -880,9 +880,9 @@
       "source": "The Better India",
       "date": "2026-10-26T07:47:46.000Z",
       "category": "planet",
-      "place": "India",
-      "lat": 21,
-      "lon": 78,
+      "place": "Kerala, India",
+      "lat": 10.85,
+      "lon": 76.27,
       "image": "https://img-cdn.publive.online/fit-in/1280x960/english-betterindia/media/media_files/2026/10/22/uses-of-banana-plant-2026-10-22-21-20-58.png"
     },
     {
@@ -893,9 +893,9 @@
       "source": "Good News Network",
       "date": "2026-10-26T07:00:00.000Z",
       "category": "planet",
-      "place": null,
-      "lat": null,
-      "lon": null,
+      "place": "New York, USA",
+      "lat": 40.71,
+      "lon": -74.01,
       "image": null
     },
     {
@@ -906,9 +906,9 @@
       "source": "The Better India",
       "date": "2026-10-26T06:30:37.000Z",
       "category": "planet",
-      "place": "India",
-      "lat": 21,
-      "lon": 78,
+      "place": "Hyderabad, India",
+      "lat": 17.39,
+      "lon": 78.49,
       "image": "https://img-cdn.publive.online/fit-in/1280x960/english-betterindia/media/media_files/2026/10/22/growing-marigolds-at-home-2026-10-22-20-57-06.png"
     },
     {
@@ -932,9 +932,9 @@
       "source": "The Better India",
       "date": "2026-10-26T03:30:37.000Z",
       "category": "animals",
-      "place": "India",
-      "lat": 21,
-      "lon": 78,
+      "place": "Bengaluru, India",
+      "lat": 12.97,
+      "lon": 77.59,
       "image": "https://img-cdn.publive.online/fit-in/1280x960/english-betterindia/media/media_files/2026/10/23/snake-rescue-2026-10-23-19-15-07.png"
     },
     {
@@ -945,9 +945,9 @@
       "source": "The Optimist Daily",
       "date": "2026-10-26T00:00:28.000Z",
       "category": "animals",
-      "place": null,
-      "lat": null,
-      "lon": null,
+      "place": "New York, USA",
+      "lat": 40.71,
+      "lon": -74.01,
       "image": "https://www.optimistdaily.com/wp-content/uploads/cat-food-in-scoop-on-Depositphotos_96912150_S.jpg"
     },
     {
@@ -1049,9 +1049,9 @@
       "source": "The Better India",
       "date": "2026-10-25T11:30:45.000Z",
       "category": "kindness",
-      "place": null,
-      "lat": null,
-      "lon": null,
+      "place": "Delhi, India",
+      "lat": 28.61,
+      "lon": 77.21,
       "image": "https://img-cdn.publive.online/fit-in/1280x960/english-betterindia/media/media_files/2026/10/23/everest-base-camp-trek-at-64-2026-10-23-13-29-16.png"
     },
     {
@@ -1075,9 +1075,9 @@
       "source": "The Better India",
       "date": "2026-10-25T03:30:37.000Z",
       "category": "health",
-      "place": "India",
-      "lat": 21,
-      "lon": 78,
+      "place": "London, UK",
+      "lat": 51.5,
+      "lon": -0.12,
       "image": "https://img-cdn.publive.online/fit-in/1280x960/english-betterindia/media/media_files/2026/10/23/tickle-your-art-2026-10-23-18-46-17.png"
     },
     {
@@ -1153,9 +1153,9 @@
       "source": "The Better India",
       "date": "2026-10-24T09:30:37.000Z",
       "category": "animals",
-      "place": "India",
-      "lat": 21,
-      "lon": 78,
+      "place": "Mumbai, India",
+      "lat": 19.08,
+      "lon": 72.88,
       "image": "https://img-cdn.publive.online/fit-in/1280x960/english-betterindia/media/media_files/2026/10/23/parenting-adventures-2026-10-23-16-25-14.png"
     },
     {
@@ -1179,9 +1179,9 @@
       "source": "Good News Network",
       "date": "2026-10-24T07:00:00.000Z",
       "category": "kindness",
-      "place": "England",
-      "lat": 52.5,
-      "lon": -1.5,
+      "place": "Manchester, UK",
+      "lat": 53.48,
+      "lon": -2.24,
       "image": null
     },
     {
@@ -1192,9 +1192,9 @@
       "source": "The Better India",
       "date": "2026-10-24T06:30:31.000Z",
       "category": "science",
-      "place": null,
-      "lat": null,
-      "lon": null,
+      "place": "Bengaluru, India",
+      "lat": 12.97,
+      "lon": 77.59,
       "image": "https://img-cdn.publive.online/fit-in/1280x960/english-betterindia/media/youtube_thumbnails/vi/bu1Tf_Q7CTo/maxresdefault.jpg"
     },
     {
@@ -1205,9 +1205,9 @@
       "source": "Good News Network",
       "date": "2026-10-23T18:30:31.000Z",
       "category": "animals",
-      "place": null,
-      "lat": null,
-      "lon": null,
+      "place": "Alaska, USA",
+      "lat": 64.2,
+      "lon": -149.5,
       "image": null
     },
     {
@@ -1270,9 +1270,9 @@
       "source": "Reasons to be Cheerful",
       "date": "2026-10-23T08:00:26.000Z",
       "category": "kindness",
-      "place": null,
-      "lat": null,
-      "lon": null,
+      "place": "Paris, France",
+      "lat": 48.86,
+      "lon": 2.35,
       "image": null
     },
     {
@@ -1322,9 +1322,9 @@
       "source": "Good News Network",
       "date": "2026-10-22T23:28:14.000Z",
       "category": "kindness",
-      "place": "America",
-      "lat": 39,
-      "lon": -98,
+      "place": "Atlanta, USA",
+      "lat": 33.75,
+      "lon": -84.39,
       "image": null
     },
     {
@@ -1426,9 +1426,9 @@
       "source": "Good News Network",
       "date": "2026-10-21T18:30:34.000Z",
       "category": "kindness",
-      "place": null,
-      "lat": null,
-      "lon": null,
+      "place": "Texas, USA",
+      "lat": 31,
+      "lon": -100,
       "image": null
     },
     {
@@ -1452,9 +1452,9 @@
       "source": "Good News Network",
       "date": "2026-10-21T13:00:45.000Z",
       "category": "planet",
-      "place": null,
-      "lat": null,
-      "lon": null,
+      "place": "Zurich, Switzerland",
+      "lat": 47.37,
+      "lon": 8.54,
       "image": null
     },
     {
@@ -1504,9 +1504,9 @@
       "source": "Reasons to be Cheerful",
       "date": "2026-10-19T08:00:14.000Z",
       "category": "kindness",
-      "place": null,
-      "lat": null,
-      "lon": null,
+      "place": "Texas, USA",
+      "lat": 31,
+      "lon": -100,
       "image": null
     },
     {

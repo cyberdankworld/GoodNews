@@ -37,7 +37,9 @@ const ago = iso => {
 
 async function init() {
   let data = { stories: [], updated: null };
-  try { data = await (await fetch('data/stories.json')).json(); } catch {}
+  for (const path of ['/api/stories', 'data/stories.json']) {
+    try { const res = await fetch(path); if (res.ok) { data = await res.json(); break; } } catch {}
+  }
   const mine = store.get('gne-mine', []);
   stories = [...mine, ...data.stories];
 
@@ -48,6 +50,7 @@ async function init() {
     : 'No stories yet. Run node scripts/fetch-news.mjs to gather some.';
 
   buildChips();
+  buildMoods();
   render();
   renderDaily();
   syncLoved();
@@ -236,7 +239,7 @@ async function drawMap() {
     const x = x0 + Math.cos(a) * r, y = y0 + Math.sin(a) * r;
     const node = g.append('g').attr('class', 'pin').attr('tabindex', 0).attr('role', 'button')
       .attr('aria-label', `${s.title}, ${s.place}`)
-      .style('--c', topicOf(s).color).style('--d', `${(i % 8) * 0.4}s`);
+      .style('--c', topicOf(s).color).style('--d', `${(i % 8) * 0.4}s`).style('--i', i);
     node.append('circle').attr('class', 'halo').attr('cx', x).attr('cy', y).attr('r', 7);
     node.append('circle').attr('class', 'dot').attr('cx', x).attr('cy', y).attr('r', 6.5);
     const show = () => {
@@ -257,20 +260,59 @@ function updatePins() {
   pinNodes.forEach(({ s, node }) => node.classed('dim', !matches(s)));
 }
 
-/* Share form */
-$('share-form').addEventListener('submit', e => {
-  e.preventDefault();
-  const f = new FormData(e.currentTarget);
-  const s = {
-    id: `mine-${Date.now()}`, title: f.get('title').trim(), summary: f.get('summary').trim(),
-    place: f.get('place').trim() || null, source: 'You', url: null, date: new Date().toISOString(),
-    category: 'kindness', lat: null, lon: null, image: null,
+/* Mood picker: three calm stories matched to how you feel. */
+const MOODS = [
+  { label: 'Worn out by the news', topics: ['kindness', 'health'] },
+  { label: 'In need of a smile', topics: ['animals'] },
+  { label: 'Worried about the planet', topics: ['planet'] },
+  { label: 'Curious', topics: ['science'] },
+];
+function buildMoods() {
+  const box = $('moods'), out = $('mood-out');
+  const pick = mood => {
+    const pool = stories.filter(s => mood.topics.includes(s.category));
+    const three = pool.sort(() => Math.random() - 0.5).slice(0, 3);
+    out.replaceChildren(...three.map((s, i) => {
+      const b = el('button', { className: 'pick', type: 'button' },
+        el('strong', { textContent: s.title }),
+        el('span', { textContent: [topicOf(s).label, s.place].filter(Boolean).join(' · ') }));
+      b.style.setProperty('--c', topicOf(s).color);
+      b.style.setProperty('--d', `${i * 70}ms`);
+      b.onclick = () => openStory(s);
+      return b;
+    }), ...(pool.length > 3 ? [el('button', { className: 'mood-more', type: 'button', textContent: 'Show me three more', onclick: () => pick(mood) })] : []));
+    if (!three.length) out.replaceChildren(el('p', { textContent: 'Nothing for that mood yet. Check back after the next update.' }));
   };
-  store.set('gne-mine', [s, ...store.get('gne-mine', [])]);
-  stories.unshift(s);
-  e.currentTarget.reset();
-  topic = 'all'; shown = PAGE; buildChips(); render();
-  $('feed').scrollIntoView({ behavior: 'smooth' });
+  box.replaceChildren(...MOODS.map(m => {
+    const b = el('button', { className: 'chip', type: 'button', textContent: m.label });
+    b.onclick = () => { box.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-pressed', c === b)); pick(m); };
+    return b;
+  }));
+}
+
+/* Share form */
+$('share-form').addEventListener('submit', async e => {
+  e.preventDefault();
+  const form = e.currentTarget, msg = $('form-msg'), btn = form.querySelector('button');
+  const f = Object.fromEntries(new FormData(form));
+  btn.disabled = true; msg.textContent = '';
+  try {
+    const res = await fetch('/api/submit', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(f) });
+    const out = await res.json().catch(() => ({}));
+    if (res.status === 404 || res.status === 405 || res.status === 501) throw new Error('offline');
+    if (!res.ok) { msg.textContent = out.error || 'That didn’t send. Try again.'; return; }
+    form.reset();
+    msg.textContent = 'Thank you. We’ll read it, and if it fits it will go on the map.';
+  } catch {
+    // No server (for example the static preview): keep the story on this device only.
+    const s = {
+      id: `mine-${Date.now()}`, title: f.title.trim(), summary: f.summary.trim(), place: f.place.trim() || null,
+      source: 'You', url: null, date: new Date().toISOString(), category: f.category, lat: null, lon: null, image: null,
+    };
+    store.set('gne-mine', [s, ...store.get('gne-mine', [])]);
+    stories.unshift(s); form.reset(); topic = 'all'; shown = PAGE; buildChips(); render();
+    msg.textContent = 'Saved on this device. Run the site with node server.mjs to send stories for review.';
+  } finally { btn.disabled = false; }
 });
 
 init();

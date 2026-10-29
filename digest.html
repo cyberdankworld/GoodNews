@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The week in good news</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='10' fill='%23FFC53D'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  .digest { max-width: 980px; margin: 0 auto; padding: 0 var(--gutter) 40px; }
+  .digest-head { padding: clamp(24px, 6vw, 64px) 0 28px; }
+  .digest-head h1 { font-size: clamp(2.6rem, 8vw, 6rem); font-weight: 800; text-wrap: balance; }
+  .digest-head p { color: var(--ink-soft); margin: 14px 0 0; max-width: 52ch; }
+  .lead { display: grid; grid-template-columns: 1.2fr 1fr; background: var(--paper); border-radius: 40px 40px 40px 8px; overflow: hidden; text-align: left; cursor: pointer; border: 0; width: 100%; font: inherit; color: inherit; padding: 0; }
+  .lead img { width: 100%; height: 100%; min-height: 280px; object-fit: cover; display: block; }
+  .lead .tile-body { padding: clamp(22px, 4vw, 40px); justify-content: center; }
+  .lead h2 { font-size: clamp(1.7rem, 3.6vw, 2.6rem); }
+  .lead p { margin: 0; color: var(--ink-soft); }
+  .rest { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr)); gap: 16px; margin-top: 16px; }
+  .digest-actions { display: flex; gap: 12px; margin-top: 32px; flex-wrap: wrap; }
+  @media (max-width: 760px) { .lead { grid-template-columns: 1fr; } }
+  @media print {
+    body { background: #fff; color: #000; } .top, .digest-actions, footer { display: none; }
+    .tile, .lead { break-inside: avoid; border: 1px solid #ccc; border-radius: 12px; background: #fff; }
+  }
+</style>
+</head>
+<body>
+<header class="top">
+  <a class="mark" href="index.html"><span class="mark-sun" aria-hidden="true"></span>Good News Everywhere</a>
+  <nav><a href="index.html">Back to the map</a></nav>
+</header>
+<main class="digest">
+  <div class="digest-head">
+    <h1 id="dates">The week in good news</h1>
+    <p>Seven stories from the past week, one from each corner where we could find it. Quick to read, nothing to dread.</p>
+  </div>
+  <button class="lead" id="lead" type="button" hidden></button>
+  <div class="rest" id="rest"></div>
+  <div class="digest-actions">
+    <button class="btn" type="button" onclick="print()">Print or save as PDF</button>
+    <a class="btn" href="index.html">Explore the map</a>
+  </div>
+</main>
+<footer><p>Headlines and summaries belong to their publishers. Every story opens at its original source.</p></footer>
+<script src="digest.js"></script>
+</body>
+</html>

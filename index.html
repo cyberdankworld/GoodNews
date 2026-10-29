@@ -16,6 +16,7 @@
   <a class="mark" href="#top"><span class="mark-sun" aria-hidden="true"></span>Good News Everywhere</a>
   <nav>
     <button class="link" id="surprise" type="button">Surprise me</button>
+    <a href="digest.html">Weekly digest</a>
     <a href="#share">Share a good thing</a>
   </nav>
 </header>
@@ -37,6 +38,12 @@
     <button class="daily-card" id="daily-card" type="button"></button>
   </section>
 
+  <section class="mood" aria-labelledby="mood-title">
+    <h2 id="mood-title">How are you feeling?</h2>
+    <div class="mood-btns" id="moods"></div>
+    <div class="mood-out" id="mood-out" aria-live="polite"></div>
+  </section>
+
   <section class="feed-head" aria-labelledby="feed-title">
     <h2 id="feed-title">Fresh stories</h2>
     <div class="tools">
@@ -51,13 +58,21 @@
   <section class="share" id="share">
     <div>
       <h2>Know something good?</h2>
-      <p>Tell us about a kind act, a win or a small miracle. It goes into your own corner of this site, saved on this device.</p>
+      <p>Tell us about a kind act, a win or a small miracle. A person reads every story before it goes on the map.</p>
     </div>
     <form id="share-form">
       <label>What happened<input name="title" required maxlength="120" placeholder="Our street built a free library"></label>
+      <label>Topic
+        <select name="category">
+          <option value="kindness">Kindness</option><option value="animals">Animals</option>
+          <option value="planet">Planet</option><option value="health">Health</option><option value="science">Science</option>
+        </select>
+      </label>
+      <label class="hp" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off"></label>
       <label>Where<input name="place" maxlength="60" placeholder="Leeds, UK"></label>
       <label>The details<textarea name="summary" rows="3" required maxlength="400" placeholder="A few sentences is plenty."></textarea></label>
-      <button class="btn" type="submit">Add my story</button>
+      <button class="btn" type="submit">Send my story</button>
+      <p class="form-msg" id="form-msg" role="status"></p>
     </form>
   </section>
 </main>
